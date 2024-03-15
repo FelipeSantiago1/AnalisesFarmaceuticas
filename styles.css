@@ -1,0 +1,138 @@
+
+#calculo{
+ text-align: center;
+    margin-top: 10px;
+    color: #19336B;
+    font-size: 18px;
+
+}
+
+#resultado{
+    text-align: center;
+    margin-top: 20px;
+    color: #19336B;
+    font-size: 18px;
+
+}
+
+input[type=number] {
+     border-radius: 10px;
+    border: 2px solid #0040ff;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+
+}.button {
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: none;
+    background-color: #555555;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    margin-bottom:40px;
+}
+
+.button:hover {
+    background-color: #4CAF50; 
+    color: white;
+}
+#menu {
+ width: 100%;
+ height:600px;
+
+ 
+}
+#divTop {
+ width: 100%;
+ height:auto;
+ color:white;
+}
+
+
+
+
+
+
+#topo{
+    margin:0 auto;
+    padding:0;
+        height: auto;
+        width: 100%;
+}   
+#topo img{
+    max-width:100%;
+    height:auto;
+}
+    body, html{
+
+        margin:0;
+        padding:0;
+        
+    }
+    #container{
+        font-family:arial;
+        max-width:1000px;
+        margin:0 auto;
+        max-height: auto;
+        overflow:hidden;
+    }
+    #content{
+        width:73%;
+        float:left;
+    }
+    .content_inner{
+        padding:10px;
+    }
+    #sidebar{
+        padding: 15px 32px;
+        position: relative;
+        width:auto;
+        float:right;
+        color: white;
+        background:#6FE068;
+
+    }
+    #rodapé{
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,17,121,0.9472163865546218) 45%, rgba(0,212,255,1) 100%);
+        margin-top:10em;
+        margin-top:0em;
+        padding-top:50px;
+        padding-bottom:50px;
+        height: 10px;
+        width:100%;
+        color: white;
+        text-align: center;
+        
+
+    }
+    #content img, #sidebar img{
+    max-width:100%;
+    height:auto;
+}
+button{
+    width: auto;
+    height: 50px;
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    border: none;
+    background-color: #555555;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    margin-bottom:40px;
+}
+button:hover {
+    background-color: #4CAF50; 
+    color: white;
+}

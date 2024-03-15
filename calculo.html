@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>AJUDA PARA QUEM PRECISA</title>
+</head>
+<body>
+<script type="text/javascript">
+function calcular(){
+
+var abs = document.getElementById('text1').value;
+var calculo = ((parseFloat(abs)-0.588)/16.61);
+document.getElementById('teste').innerHTML = calculo;
+	
+}
+</script>
+<style type="text/css">
+	input[type=number] {
+     border-radius: 10px;
+    border: 2px solid #0040ff;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;}
+    .button {
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: none;
+    background-color: #555555;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    margin-bottom:40px;
+}
+
+.button:hover {
+    background-color: #4CAF50; 
+    color: white;
+}
+
+
+</style>
+<div>
+
+
+<table>
+	<thead>
+	  Digite a absorbância do teor alcoólico
+	</thead>
+<tr>
+	<td>
+		<input id= "text1" type="number" name="">
+		<button onclick="calcular()" class="button">calcular</button>
+		<p id="teste" style="color: black;"></p>
+	</td>
+</tr>
+
+</table>
+ 
+</div>
+</body>
+</html>
