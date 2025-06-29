@@ -1,48 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<style type="text/css"></style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Fibras</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #198754; /* Verde */
+            --cor-primaria-escura: #146c43;
+            --cor-acento: #20c997;
+            --cor-fundo: #F4F7FC;
+            --cor-fundo-card: #FFFFFF;
+            --cor-texto-principal: #222222;
+            --cor-texto-secundario: #555555;
+            --cor-borda: #E0E7F1;
+            --cor-sucesso: var(--cor-primaria);
+            --cor-sucesso-fundo: #d1e7dd;
+            --sombra-padrao: 0 10px 25px rgba(0, 0, 0, 0.07);
+            --sombra-botao: 0 4px 15px rgba(25, 135, 84, 0.3);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-principal);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 900px; margin: 2rem auto; background-color: var(--cor-fundo-card); border-radius: 16px; box-shadow: var(--sombra-padrao); overflow: hidden; }
+        header { background-color: var(--cor-primaria); color: white; padding: 2rem; text-align: center; }
+        header h1 { font-weight: 600; font-size: 2rem; }
+        main.calculadora-wrapper { display: flex; flex-wrap: wrap; gap: 2rem; padding: 2.5rem; }
+        .form-calculo { flex: 2; min-width: 300px; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--cor-texto-secundario); font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--cor-borda); border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .form-group input:focus { outline: none; border-color: var(--cor-acento); box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.2); }
+        .form-actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+        .btn { padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; text-decoration: none; color: white; cursor: pointer; transition: all 0.3s ease; display: inline-block; text-align: center; }
+        .btn-calcular { background-color: var(--cor-primaria); box-shadow: var(--sombra-botao); }
+        .btn-calcular:hover { background-color: var(--cor-primaria-escura); transform: translateY(-3px); }
+        .btn-voltar { background-color: transparent; color: var(--cor-texto-secundario); border: 1px solid var(--cor-borda); }
+        .btn-voltar:hover { background-color: #e9ecef; color: var(--cor-texto-principal); }
+        .resultados-wrapper { flex: 1.5; min-width: 280px; background-color: var(--cor-fundo); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--cor-borda); text-align: center; }
+        .resultados-wrapper h2 { margin-top: 0; color: var(--cor-primaria); font-weight: 600; font-size: 1.5rem; margin-bottom: 1.5rem; }
+        #resultado { font-size: 2.5rem; font-weight: 700; color: var(--cor-sucesso); margin: 1rem 0; padding: 1rem; background-color: var(--cor-sucesso-fundo); border-radius: 8px; }
+        #calculo-detalhado { margin-top: 1.5rem; color: var(--cor-texto-secundario); font-size: 0.85rem; line-height: 1.8; background-color: #e9eef5; padding: 1rem; border-radius: 8px; font-family: 'Courier New', Courier, monospace; text-align: left; word-wrap: break-word; }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem; color: #888; font-size: 0.9rem; }
+    </style>
 </head>
-<title>CÁLCULO DE FIBRAS</title>
-
 <body>
-	<script src="funcoes.js"></script>
-<div id="container">
-	<div id="content">
-		 <div id="sidebar"><label><h3 id="nome"></h3><h3 id="resultado"></h3></label></div>	 
-		<div class="content_inner">
+    <div class="container">
+        <header><h1>Calculadora de Fibras</h1></header>
+        <main class="calculadora-wrapper">
+            <form class="form-calculo" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="pesoAmostraSeca">Peso da Amostra Seca (g)</label>
+                    <input id="pesoAmostraSeca" type="number" step="any" placeholder="Ex: 2.051" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesoPapel">Peso do Papel Filtro (g)</label>
+                    <input id="pesoPapel" type="number" step="any" placeholder="Ex: 0.985" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesoFibraPapel">Peso Final (Fibras + Papel) (g)</label>
+                    <input id="pesoFibraPapel" type="number" step="any" placeholder="Ex: 1.255" required>
+                </div>
+                 <div class="form-group">
+                    <label for="umidade">Umidade da Amostra (%)</label>
+                    <input id="umidade" type="number" step="any" placeholder="Ex: 12.5" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-calcular" onclick="CalcFibras()">Calcular Fibras</button>
+                    <a href="index.html" class="btn btn-voltar">Voltar</a>
+                </div>
+            </form>
+            <aside class="resultados-wrapper">
+                <h2>Resultado</h2>
+                <div id="resultado">--.-- %</div>
+                <div id="calculo-detalhado">
+                    <strong>Fórmula (Mat. Natural):</strong><br>
+                    %Fibra = (%Fibra na MS * (100 - %Umidade)) / 100
+                    <br><br>
+                    Aguardando cálculo...
+                </div>
+            </aside>
+        </main>
+    </div>
+    <footer><p>Desenvolvido por Felipe Santiago</p></footer>
+    <script>
+        function CalcFibras() {
+            const pesoAmostraSeca = parseFloat(document.getElementById('pesoAmostraSeca').value);
+            const pesoPapel = parseFloat(document.getElementById('pesoPapel').value);
+            const pesoFibraPapel = parseFloat(document.getElementById('pesoFibraPapel').value);
+            const umidade = parseFloat(document.getElementById('umidade').value);
 
-			<form>
-					<label><h1>CÁLCULO DE FIBRAS</h1></label><br>
-					<label><h2>Digite a umidade</h2></label>
-				  	<input id="text4" class="text3" type="Number"><br> 	 
-					<label><h2>Digite o peso em gramas da amostra seca.</h2></label>
-				  	<input id="text1" class="text1" type="Number"><br>
-				  	<label><h2>Digite o peso em gramas do papel.</h2></label>
-				  	<input id="text2" class="text2" type="Number"><br>
-				  	<label><h2>Digite a soma do peso das fibras com o peso do papel.</h2></label>
-				  	<input id="text3" class="text3" type="Number"><br>
-				  			
-		   </form>
+            const resultadoDiv = document.getElementById('resultado');
+            const detalhadoDiv = document.getElementById('calculo-detalhado');
 
-		   			<button id="soma"  class="button" onclick="CalcFibras()"> Calcular Fibras</button>
-		   			 <a href="index.html"><button >Voltar</button></a>
-		   			 <br><br>
+            const inputs = [pesoAmostraSeca, pesoPapel, pesoFibraPapel, umidade];
+            if (inputs.some(isNaN)) {
+                resultadoDiv.textContent = "Erro!";
+                detalhadoDiv.innerHTML = "Preencha todos os campos com números válidos.";
+                return;
+            }
+            if (pesoFibraPapel < pesoPapel) {
+                resultadoDiv.textContent = "Inválido!";
+                detalhadoDiv.innerHTML = "O peso final (fibras + papel) não pode ser menor que o peso do papel.";
+                return;
+            }
 
-		</div>
-	</div>
-	
-</div>
+            const pesoFibras = pesoFibraPapel - pesoPapel;
+            const fibraMateriaSeca = (pesoFibras / pesoAmostraSeca) * 100;
+            const fibraMateriaNatural = fibraMateriaSeca * (100 - umidade) / 100;
 
-
-
-<br/><br/>
+            resultadoDiv.textContent = `${fibraMateriaNatural.toFixed(2)} %`;
+            detalhadoDiv.innerHTML = `
+                <strong>Cálculo Passo a Passo:</strong><br>
+                1. <strong>% Fibra na Matéria Seca:</strong><br>
+                   [(${pesoFibraPapel.toFixed(3)} - ${pesoPapel.toFixed(3)}) / ${pesoAmostraSeca.toFixed(3)}] * 100
+                   <br>Resultado = <strong>${fibraMateriaSeca.toFixed(2)}%</strong>
+                <br><br>
+                2. <strong>% Fibra na Matéria Natural:</strong><br>
+                   [${fibraMateriaSeca.toFixed(2)} * (100 - ${umidade.toFixed(2)})] / 100
+                   <br>Resultado = <strong>${fibraMateriaNatural.toFixed(2)}%</strong>`;
+        }
+    </script>
 </body>
-<footer>
-	<div id="rodapé">
-	 Desenvolvido por Felipe Santiago
-	</div>
-</footer>
 </html>
