@@ -1,47 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<style type="text/css"></style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Umidade</title>
+    <style>
+        :root {
+            --cor-primaria: #005A8D;
+            --cor-secundaria: #009DFF;
+            --cor-fundo: #F0F4F8;
+            --cor-texto: #333;
+            --cor-borda: #DDE3E9;
+            --cor-sucesso: #28a745;
+            --sombra: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--sombra);
+        }
+        header h1 {
+            color: var(--cor-primaria);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .calculadora-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .form-umidade {
+            flex: 2;
+            min-width: 300px;
+        }
+        .resultados-wrapper {
+            flex: 1;
+            background-color: #F8F9FA;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--cor-borda);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .btn-calcular, .btn-voltar {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-calcular {
+            background-color: var(--cor-primaria);
+        }
+        .btn-calcular:hover {
+            background-color: #00456c;
+            transform: translateY(-2px);
+        }
+        .btn-voltar {
+            background-color: #6c757d;
+            display: inline-block;
+        }
+        .btn-voltar:hover {
+            background-color: #5a6268;
+        }
+        .resultados-wrapper h2 {
+            margin-top: 0;
+            color: var(--cor-primaria);
+            border-bottom: 2px solid var(--cor-borda);
+            padding-bottom: 10px;
+        }
+        #resultado {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--cor-sucesso);
+            text-align: center;
+            margin-top: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            border-top: 1px solid var(--cor-borda);
+        }
+    </style>
 </head>
-<title>CÁLCULO DE UMIDADE</title>
 <body>
-	<script src="funcoes.js"></script>
-<div id="container">
-	<div id="content">
-		 <div id="sidebar">
-		 			<p id="resultado"></p>
-		 	</div>	 
-		<div class="content_inner">
-
-			<center><table>
-				<thead><tr><th><label><h1>CÁLCULO DE UMIDADE</h1></label><br></th></tr></thead>
-				<tbody>
-					<tr><td><label><h4>Digite o peso em gramas da amostra.</h2></label>
-				  	<input id="text1" class="text1" type="Number"><br></td></tr>
-				  	<tr><td><label><h4>Digite o peso em gramas da cápsula.</h2></label>
-				  	<input id="text2" class="text2" type="Number"><br></td></tr>
-				  	<tr><td><label><h4>Digite o peso em gramas da soma do peso da amostra seca com o peso da cápsula.</h2></label>
-				  	<input id="text3" class="text3" type="Number"><br></td></tr>
-				  	<tr><td><a style="text-decoration: none; "><button id="soma"  class="button" onclick="CalcUmidade()"> Calcular Umidade</button></a>
-		   			 <a  style="text-decoration: none; font-size: 12px; " href="Bromatologia.html"><button>Voltar</button></a>
-		   			 <br><br></td></tr>
-				</tbody>	
-		    </table></center>
-
-		   			
-
-		</div>
-	</div>
-	
-</div>
-<br/><br/>
-<center><p id="calculo"></p></center>
+    <div class="container">
+        <header>
+            <h1>Cálculo de Umidade</h1>
+        </header>
+        <main class="calculadora-wrapper">
+            <form class="form-umidade" onsubmit="event.preventDefault(); CalcUmidade();">
+                <div class="form-group">
+                    <label for="pesoAmostra">Digite o peso em gramas da amostra</label>
+                    <input id="pesoAmostra" type="number" step="any" placeholder="Ex: 10.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesoCapsula">Digite o peso em gramas da cápsula</label>
+                    <input id="pesoCapsula" type="number" step="any" placeholder="Ex: 25.0" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesoFinal">Digite o peso da amostra seca + cápsula (g)</label>
+                    <input id="pesoFinal" type="number" step="any" placeholder="Ex: 33.2" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-calcular">Calcular Umidade</button>
+                    <a href="Bromatologia.html" class="btn-voltar">Voltar</a>
+                </div>
+            </form>
+            <aside class="resultados-wrapper">
+                <h2>Resultado</h2>
+                <p id="resultado">Aguardando cálculo...</p>
+                <p id="calculo-detalhado"></p>
+            </aside>
+        </main>
+    </div>
+    <footer>
+        <p>Desenvolvido por Felipe Santiago</p>
+    </footer>
+    <script src="funcoes.js"></script>
 </body>
-<footer>
-	<div id="rodapé">
-	 Desenvolvido por Felipe Santiago
-	</div>
-</footer>
 </html>
