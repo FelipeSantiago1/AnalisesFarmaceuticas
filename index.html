@@ -1,148 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Calculadora Química</title>
 	
-	
-	<title>CALCULADORA QUÍMICA</title>
-	<meta charset="utf-8">
-</head>
-<body style=" top: 0; margin:0; padding: 0; background: #33ccff; /*linear-gradient(to bottom, #33ccff 0%, #00cc99 78%); /*">
-	<style type="text/css">
-		#topo{
-	margin:0 auto;
-	padding:0;
-		height: auto;
-		width: 100%;
-}	
-#topo img{
-	max-width:100%;
-	height:auto;
-}
-	body, html{
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
-		margin:0;
-		padding:0;
-		
-	}
-	#container{
-		font-family:arial;
-		/* Largura máxima */
-		max-width:813px;
-		/* Alinha ao centro */
-		margin:0 auto;
-		max-height: auto;
-		overflow:hidden;
-	}
-	#content{
-		/* Largura */
-		width:73%;
-		/* Alinha à esquerda */
-		float:left;
-	}
-	.content_inner{
-		padding:10px;
-	}
-	#sidebar{
-		/* Largura */
-		width:27%;
-		/* Alinha à direita */
-		float:right;
-		background:#ccc;
+	<style>
+        :root {
+            --cor-fundo-inicio: #33ccff;
+            --cor-fundo-fim: #00cc99;
+            --cor-botao: #19336B;
+            --cor-botao-hover: #4CAF50;
+            --cor-botao-disabled-hover: #d32f2f;
+            --cor-texto-principal: #fffdd9;
+            --cor-sombra-texto: #000;
+            --fonte-principal: 'Montserrat', sans-serif;
+        }
 
-	}
-	#rodapé{
-		background: rgb(2,0,36);
-background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,17,121,0.9472163865546218) 45%, rgba(0,212,255,1) 100%);
-		clear: both;
-		margin: 0;
-		padding:0;
-		padding-bottom: 0px;
-		
-		height: 80px;
-		width: 100%;
-		 position:absolute;
-   		 bottom:0;
-    	width:100%;
-    	color: white;
-    	text-align: center;
-    	
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-	}
-	#content img, #sidebar img{
-	max-width:100%;
-	height:auto;
-}
-/*Acima a estrutura do site*/
+        body {
+            font-family: var(--fonte-principal);
+            background: linear-gradient(to bottom, var(--cor-fundo-inicio), var(--cor-fundo-fim));
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-.button {
-	width: 800px;
-	height: 100px;
-    
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 40px;
-	border: solid;
-	border-radius: 40px;
-	background-color:#19336B;
-    -webkit-transition-duration: 0.4s; 
-    transition-duration: 0.4s;
-    margin-bottom:40px;
-    font-family: helvetica;
-}
-.buttonBrev {
-	width: 800px; 
-	height: 100px;
-   
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 40px;
-    font-family: helvetica;
-	border: solid;
-	 border-radius: 40px;
-	background-color:#19336B;
-    -webkit-transition-duration: 0.4s; 
-    transition-duration: 0.4s;
-    margin-bottom:40px;
-}
-.buttonBrev:hover {
-    background-color:red; 
-    color: white;
-}
-.button:hover {
-    background-color: #4CAF50; 
-    color: white;
-}
+        .container-calculadora {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
 
+        header {
+            margin-bottom: 40px;
+        }
+
+        .titulo-principal {
+            font-size: 2.5rem;
+            color: var(--cor-texto-principal);
+            text-shadow: 
+                -1px -1px 0 var(--cor-sombra-texto),  
+                 1px -1px 0 var(--cor-sombra-texto),
+                -1px  1px 0 var(--cor-sombra-texto),
+                 1px  1px 0 var(--cor-sombra-texto),
+                 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .nav-opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 20px 30px;
+            font-size: 2rem;
+            color: white;
+            background-color: var(--cor-botao);
+            border: 2px solid var(--cor-sombra-texto);
+            border-radius: 40px;
+            text-decoration: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--cor-botao-hover);
+            transform: scale(1.03);
+        }
+        
+        .btn--disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn--disabled:hover {
+            background-color: var(--cor-botao-disabled-hover);
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 600px) {
+            .titulo-principal {
+                font-size: 2rem;
+            }
+            .btn {
+                font-size: 1.5rem;
+                padding: 15px 20px;
+            }
+        }
 	</style>
-<div id="container">
-	<div id="content">
-		<div class="content_inner">
-			<header>
-			<div id="divTop">
+</head>
+<body>
 
-				<center><table >
-					<tr>
-							<td style="  color: #19336B; font-size: 20px; text-align: center; width: 800px; height: auto;-webkit-text-stroke-width: 2px;-webkit-text-stroke-color: #000; color: #fffdd9;
-							">
-							<h1>SELECIONE UMA OPÇÃO DISPONÍVEL</h1> <br></td>
-					</tr>
-					<tr><td><a href="Bromatologia.html"><button class="button">Bromatologia</button></a></td></tr>
-					<tr><td><a href="CalculadoraIDH.html"><button class="button">Cálculo de IDH</button></a></td></tr>
-					<tr><td><a href="calculo.html"><button class="button">CLICA AQUI(TEMP)</button></a></td></tr>
-					<tr><td><a ><button class="buttonBrev">Cálculo de PH (em breve)</button></a></td></tr>
-					<tr><td><a ><button class="buttonBrev">Cálculo de pKa (em breve)</button></a></td></tr>
-					
-				</table></center>
-			</div>
-			</header>
-		</div>
-	</div>
-</div>
+<main class="container-calculadora">
+	<header>
+		<h1 class="titulo-principal">SELECIONE UMA OPÇÃO DISPONÍVEL</h1>
+	</header>
+	
+    <nav class="nav-opcoes">
+        <a href="Bromatologia.html" class="btn">Bromatologia</a>
+        <a href="CalculadoraIDH.html" class="btn">Cálculo de IDH</a>
+        <a href="calculo.html" class="btn">CLICA AQUI(TEMP)</a>
+        <a href="#" class="btn btn--disabled">Cálculo de PH (em breve)</a>
+        <a href="#" class="btn btn--disabled">Cálculo de pKa (em breve)</a>
+    </nav>
+</main>
+
 </body>
 </html>
