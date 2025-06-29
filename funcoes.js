@@ -24,25 +24,58 @@ document.getElementById('resultado').innerHTML =  nome;
 
 
 
-function CalcUmidade(){
-var pesoDaAmostra = document.getElementById('text1').value;
-var PesoDaCapsula = document.getElementById('text2').value;
-var PesoDaCapsulaAmostraseca = document.getElementById('text3').value;
-if (pesoDaAmostra == "" && PesoDaCapsula == "" && PesoDaCapsulaAmostraseca == ""){
-    window.alert("DIGITE OS DADOS REQUISITADOS");
-}
-if (pesoDaAmostra == "" || PesoDaCapsula == "" || PesoDaCapsulaAmostraseca == ""){
-    window.alert("DIGITE OS DADOS REQUISITADOS");
-}
-var AmostraSeca = (parseFloat(PesoDaCapsulaAmostraseca)-parseFloat(PesoDaCapsula));
-var Umidade = (parseFloat(pesoDaAmostra)- AmostraSeca);
-var percentagem = ((100*Umidade)/pesoDaAmostra);
-var nome = ("<b>UMIDADE</b><br><br>"+ percentagem.toFixed(5)+"% "+"<br><br><a href='Umidade.html#calculo' style='text-decoration: none;'><button class='button'>Ver Cálculo</button></a>");
-document.getElementById('resultado').innerHTML =  nome;
-var formula = ("<b><h1>Cálculo</h1><br>"+"<b>Determinando a amostra seca</b><br><br>"+ PesoDaCapsulaAmostraseca +" - " + PesoDaCapsula + " = "+ AmostraSeca.toFixed(5)+"<br><br><b>Determinando umidade</b><br><br>"+pesoDaAmostra+" - "+AmostraSeca.toFixed(5)+" = "+ Umidade.toFixed(5)+"<br><br> <b>Determinando a umidade em porcentagem</b><br><br>"+pesoDaAmostra+ " ------- 100 % " +"<br><br>"+Umidade.toFixed(5)+ " ------- X (%)<br><br>"+"X = "+Umidade.toFixed(5)+" * 100/"+pesoDaAmostra+"<br><br>"+"X = "+ percentagem.toFixed(5)+" %");
-document.getElementById('calculo').innerHTML = formula;
+function CalcUmidade() {
+    const pesoAmostra = parseFloat(document.getElementById('pesoAmostra').value);
+    const pesoCapsula = parseFloat(document.getElementById('pesoCapsula').value);
+    const pesoFinal = parseFloat(document.getElementById('pesoFinal').value);
 
- }
+    const resultadoDiv = document.getElementById('resultado');
+    const detalhadoDiv = document.getElementById('calculo-detalhado');
+
+    if (isNaN(pesoAmostra) || isNaN(pesoCapsula) || isNaN(pesoFinal)) {
+        resultadoDiv.textContent = "Erro!";
+        resultadoDiv.style.color = "#D93025";
+        resultadoDiv.style.backgroundColor = "#FAD2D0";
+        detalhadoDiv.innerHTML = "Por favor, preencha todos os campos com números válidos.";
+        return;
+    }
+
+    if (pesoAmostra <= 0) {
+        resultadoDiv.textContent = "Inválido!";
+        resultadoDiv.style.color = "#D93025";
+        resultadoDiv.style.backgroundColor = "#FAD2D0";
+        detalhadoDiv.innerHTML = "O peso da amostra deve ser maior que zero.";
+        return;
+    }
+
+    if (pesoFinal < pesoCapsula) {
+        resultadoDiv.textContent = "Inválido!";
+        resultadoDiv.style.color = "#D93025";
+        resultadoDiv.style.backgroundColor = "#FAD2D0";
+        detalhadoDiv.innerHTML = "O peso final (amostra seca + cápsula) não pode ser menor que o peso da cápsula sozinha.";
+        return;
+    }
+
+    const pesoSeco = pesoFinal - pesoCapsula;
+    const umidadeAbsoluta = pesoAmostra - pesoSeco;
+    const umidadePercentual = (umidadeAbsoluta / pesoAmostra) * 100;
+
+    resultadoDiv.style.color = "var(--cor-sucesso)";
+    resultadoDiv.style.backgroundColor = "var(--cor-sucesso-fundo)";
+    
+    resultadoDiv.textContent = `${umidadePercentual.toFixed(2)} %`;
+
+    detalhadoDiv.innerHTML = `
+        <strong>Cálculo Passo a Passo:</strong><br>
+        1. <strong>Peso da Matéria Seca:</strong><br>
+           P. Final - P. Cápsula<br>
+           ${pesoFinal.toFixed(2)}g - ${pesoCapsula.toFixed(2)}g = <strong>${pesoSeco.toFixed(2)}g</strong>
+        <br><br>
+        2. <strong>Umidade (%):</strong><br>
+           [(P. Amostra - P. Seco) / P. Amostra] * 100<br>
+           [(${pesoAmostra.toFixed(2)}g - ${pesoSeco.toFixed(2)}g) / ${pesoAmostra.toFixed(2)}g] * 100 = <strong>${umidadePercentual.toFixed(2)}%</strong>
+    `;
+}
 
 
 function CalcCinzas(){
