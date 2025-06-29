@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Proteínas | Método de Kjeldahl</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #0d6efd; /* Azul mais vibrante para diferenciar */
+            --cor-primaria-escura: #0b5ed7;
+            --cor-acento: #3dfdcb;
+            --cor-fundo: #F4F7FC;
+            --cor-fundo-card: #FFFFFF;
+            --cor-texto-principal: #222222;
+            --cor-texto-secundario: #555555;
+            --cor-borda: #E0E7F1;
+            --cor-sucesso: #198754; /* Verde escuro para sucesso */
+            --cor-sucesso-fundo: #d1e7dd;
+            --sombra-padrao: 0 10px 25px rgba(0, 90, 141, 0.1);
+            --sombra-botao: 0 4px 15px rgba(13, 110, 253, 0.3);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-image: linear-gradient(120deg, var(--cor-fundo) 0%, #E9F1FA 100%);
+            color: var(--cor-texto-principal);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px; margin: 2rem auto; background-color: var(--cor-fundo-card);
+            border-radius: 16px; box-shadow: var(--sombra-padrao); overflow: hidden;
+        }
+        header { background-color: var(--cor-primaria); color: white; padding: 2rem; text-align: center; }
+        header h1 { font-weight: 600; font-size: 2rem; }
+        main.calculadora-wrapper { display: flex; flex-wrap: wrap; gap: 2rem; padding: 2.5rem; }
+        .form-calculo { flex: 2; min-width: 300px; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block; margin-bottom: 0.5rem; font-weight: 500;
+            color: var(--cor-texto-secundario); font-size: 0.9rem;
+        }
+        .form-group input[type="number"] {
+            width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--cor-borda);
+            border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input[type="number"]:focus {
+            outline: none; border-color: var(--cor-acento);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+        }
+        .form-actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+        .btn {
+            padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600;
+            font-family: 'Poppins', sans-serif; text-decoration: none; color: white; cursor: pointer;
+            transition: all 0.3s ease; display: inline-block; text-align: center;
+        }
+        .btn-calcular { background-color: var(--cor-primaria); box-shadow: var(--sombra-botao); }
+        .btn-calcular:hover {
+            background-color: var(--cor-primaria-escura); transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+        }
+        .btn-voltar {
+            background-color: transparent; color: var(--cor-texto-secundario);
+            border: 1px solid var(--cor-borda);
+        }
+        .btn-voltar:hover { background-color: var(--cor-fundo); color: var(--cor-texto-principal); border-color: #cdd8e7; }
+        .resultados-wrapper {
+            flex: 1.5; min-width: 280px; background-color: var(--cor-fundo); padding: 1.5rem;
+            border-radius: 12px; border: 1px solid var(--cor-borda); text-align: center;
+        }
+        .resultados-wrapper h2 {
+            margin-top: 0; color: var(--cor-primaria); font-weight: 600;
+            font-size: 1.5rem; margin-bottom: 1.5rem;
+        }
+        #resultado {
+            font-size: 2.5rem; font-weight: 700; color: var(--cor-sucesso); margin: 1rem 0;
+            padding: 1rem; background-color: var(--cor-sucesso-fundo); border-radius: 8px;
+        }
+        #calculo-detalhado {
+            margin-top: 1.5rem; color: var(--cor-texto-secundario); font-size: 0.85rem; line-height: 1.8;
+            background-color: #e9eef5; padding: 1rem; border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace; text-align: left; word-wrap: break-word;
+        }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem; color: #888; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculadora de Proteínas (Kjeldahl)</h1>
+        </header>
+        
+        <main class="calculadora-wrapper">
+            <form class="form-calculo" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="pesoAmostra">Peso da Amostra (g)</label>
+                    <input id="pesoAmostra" type="number" step="any" placeholder="Ex: 1.05" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="volumeGasto">Volume de Ácido Gasto na Amostra (mL)</label>
+                    <input id="volumeGasto" type="number" step="any" placeholder="Ex: 15.5" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="volumeBranco">Volume de Ácido Gasto no Branco (mL)</label>
+                    <input id="volumeBranco" type="number" step="any" placeholder="Ex: 0.2" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="concentracaoAcido">Normalidade do Ácido (N)</label>
+                    <input id="concentracaoAcido" type="number" step="any" placeholder="Ex: 0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fatorConversao">Fator de Conversão (N para Proteína)</label>
+                    <input id="fatorConversao" type="number" step="any" value="6.25" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-calcular" onclick="CalcProteina()">Calcular Proteína</button>
+                    <a href="Bromatologia.html" class="btn btn-voltar">Voltar</a>
+                </div>
+            </form>
+            
+            <aside class="resultados-wrapper">
+                <h2>Resultado Final</h2>
+                <div id="resultado">--.-- %</div>
+                <div id="calculo-detalhado">
+                    <strong>Fórmulas:</strong><br>
+                    N% = [(V_amostra - V_branco) * N_acido * 1.4007] / P_amostra
+                    <br><br>
+                    Proteína% = N% * Fator
+                    <br><br>
+                    Aguardando cálculo...
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <footer>
+        <p>Desenvolvido por Felipe Santiago</p>
+    </footer>
+
+    <script>
+        function CalcProteina() {
+            const pesoAmostra = parseFloat(document.getElementById('pesoAmostra').value);
+            const volumeGasto = parseFloat(document.getElementById('volumeGasto').value);
+            const volumeBranco = parseFloat(document.getElementById('volumeBranco').value);
+            const concentracaoAcido = parseFloat(document.getElementById('concentracaoAcido').value);
+            const fatorConversao = parseFloat(document.getElementById('fatorConversao').value);
+
+            const resultadoDiv = document.getElementById('resultado');
+            const detalhadoDiv = document.getElementById('calculo-detalhado');
+
+            const inputs = [pesoAmostra, volumeGasto, volumeBranco, concentracaoAcido, fatorConversao];
+            if (inputs.some(isNaN)) {
+                resultadoDiv.textContent = "Erro!";
+                resultadoDiv.style.color = "#D93025";
+                resultadoDiv.style.backgroundColor = "#FAD2D0";
+                detalhadoDiv.innerHTML = "Por favor, preencha todos os campos com números válidos.";
+                return;
+            }
+
+            if (pesoAmostra <= 0 || concentracaoAcido <= 0 || fatorConversao <= 0) {
+                resultadoDiv.textContent = "Inválido!";
+                resultadoDiv.style.color = "#D93025";
+                resultadoDiv.style.backgroundColor = "#FAD2D0";
+                detalhadoDiv.innerHTML = "O peso da amostra e as concentrações/fatores devem ser maiores que zero.";
+                return;
+            }
+
+            if (volumeGasto < volumeBranco) {
+                resultadoDiv.textContent = "Inválido!";
+                resultadoDiv.style.color = "#D93025";
+                resultadoDiv.style.backgroundColor = "#FAD2D0";
+                detalhadoDiv.innerHTML = "O volume gasto na amostra não pode ser menor que o volume gasto no branco.";
+                return;
+            }
+
+            const porcentagemNitrogenio = ((volumeGasto - volumeBranco) * concentracaoAcido * 1.4007) / pesoAmostra;
+            const porcentagemProteina = porcentagemNitrogenio * fatorConversao;
+
+            resultadoDiv.style.color = "var(--cor-sucesso)";
+            resultadoDiv.style.backgroundColor = "var(--cor-sucesso-fundo)";
+            
+            resultadoDiv.textContent = `${porcentagemProteina.toFixed(2)} %`;
+
+            detalhadoDiv.innerHTML = `
+                <strong>Cálculo Passo a Passo:</strong><br>
+                1. <strong>Nitrogênio (% N):</strong><br>
+                   [(${volumeGasto.toFixed(2)} - ${volumeBranco.toFixed(2)}) * ${concentracaoAcido.toFixed(4)} * 1.4007] / ${pesoAmostra.toFixed(4)}g
+                   <br>
+                   Resultado N = <strong>${porcentagemNitrogenio.toFixed(4)}%</strong>
+                <br><br>
+                2. <strong>Proteína Bruta (% PB):</strong><br>
+                   %N * Fator de Conversão<br>
+                   ${porcentagemNitrogenio.toFixed(4)}% * ${fatorConversao.toFixed(2)} = <strong>${porcentagemProteina.toFixed(2)}%</strong>
+            `;
+        }
+    </script>
+
+</body>
+</html>
