@@ -1,148 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-  <title>Bromatologia</title>
-  <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bromatologia - Composição Centesimal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cor-primaria: #000000;
+            --cor-secundaria: #333333;
+            --cor-destaque: #8FEE7F;
+            --cor-texto: #FFFFFF;
+            --fonte-principal: 'Roboto', sans-serif;
+            --tamanho-borda-raio: 15px;
+            --duracao-transicao: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--fonte-principal);
+            background-color: #f4f4f4;
+            color: var(--cor-secundaria);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--tamanho-borda-raio);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            margin-bottom: 40px;
+        }
+
+        .titulo-principal {
+            font-size: 2.5rem;
+            color: var(--cor-primaria);
+            font-weight: 700;
+        }
+
+        .grade-opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .botao-opcao {
+            width: 180px;
+            height: 180px;
+            background-color: var(--cor-primaria);
+            color: var(--cor-texto);
+            border-radius: var(--tamanho-borda-raio);
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transition: color var(--duracao-transicao) ease, transform var(--duracao-transicao) ease;
+        }
+        
+        .botao-opcao small {
+            font-size: 0.8rem;
+            font-weight: 400;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        .botao-opcao:hover,
+        .botao-opcao:focus {
+            color: var(--cor-primaria);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .botao-opcao::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--cor-destaque);
+            z-index: -1;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform var(--duracao-transicao) ease;
+        }
+
+        .botao-opcao:hover::before,
+        .botao-opcao:focus::before {
+            transform: scaleY(1);
+            transform-origin: top;
+        }
+
+        @media (max-width: 600px) {
+            .titulo-principal {
+                font-size: 2rem;
+            }
+
+            .botao-opcao {
+                width: 150px;
+                height: 150px;
+                font-size: 1rem;
+            }
+        }
+
+    </style>
 </head>
 <body>
 
-<style>
+    <main class="container">
+        <header>
+            <h1 class="titulo-principal">COMPOSIÇÃO CENTESIMAL</h1>
+        </header>
 
-  table {
-    max-width: 100%;
-    background-color: transparent;
-    border-collapse: collapse;
-    border-spacing: 0;
-    font-family: arial;
-  }
+        <nav class="grade-opcoes" aria-label="Análises Bromatológicas">
+            <a class="botao-opcao" href="Umidade.html">UMIDADE</a>
+            <a class="botao-opcao" href="Fibras.html">FIBRAS</a>
+            <a class="botao-opcao" href="Extrato_eterio.html">EXTRATO ETÉREO</a>
+            <a class="botao-opcao" href="Cinzas.html">CINZAS</a>
+            <a class="botao-opcao" href="#">
+                PROTEÍNAS
+                <small>(Em breve)</small>
+            </a>
+            <a class="botao-opcao" href="#">
+                CARBOIDRATOS
+                <small>(Em breve)</small>
+            </a>
+        </nav>
+    </main>
 
-  .tabela {
-    border-bottom: #999999 solid 0px;
-    width: auto;
-    margin-bottom: 20px;
-  }
-
-  .tabela th,
-  .tabela td {
-    border-right: #999999 solid 0px;
-    font-size: 12px;
-    padding: 8px;
-    line-height: 20px;
-    text-align: left;
-    vertical-align: middle;
-  }
-
-  .tabela td:last-child {
-     border-right: 0;
-  }
-
-  .tabela thead th {
-    font-weight: normal;
-    background-color: white;
-    color: #fff;
-    font-size: 15px;
-  }
-
-  .tabela tbody > tr:nth-child(odd) > td,
-  .tabela tbody > tr:nth-child(odd) > th {
-    background-color: white;
-  }
-
-
-
-@media (max-width: 767px) { 
-  .tabela-fluida {
-    display: block;
-   
- 
-    width: auto;
-  }
-  .tabela-fluida thead,th{ height:0;}
-  
-  .tabela-fluida thead,
-  .tabela-fluida tbody,
-  .tabela-fluida th,
-  .tabela-fluida td,
-  .tabela-fluida tr {
-    display: block;
-    
-  }
-  .tabela-fluida td{
-    height: 70px;
-  }
-
-  .tabela-fluida thead {
-     width:0; 
-     height:0;
-
-  }
-
-  .tabela-fluida tbody {
-    width: auto;
-    position: relative;
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    white-space: nowrap;
-  }
-
-  .tabela-fluida tbody tr {
-    display: inline-block;
-  }
-
-  
-  .tabela td:last-child {
-     border-right: #999999 solid 0px;
-  }
-
-
-}
-   .opcoes {
-      width: 150px;
-      height:150px;   
-      border-radius: 10px;
-      color:white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 20px;
-      border: none;
-      background-color: black;
-      -webkit-transition-duration: 0.4s; 
-      transition-duration: 0.4s;
-  }
-  .opcoes:hover {
-    background-color: #8FEE7F; 
-    color: white;
-}
-</style>
- 
-<center>
-
-<!-- tabela -->
-<table class="tabela-fluida">
-  <thead>
-      <tr><th><P style="font-size: 25px; color: black; font-family: helvetica;">COMPOSIÇÃO CENTESIMAL</P></th></tr>
-  </thead>
-</table>
-
-
-<!--tabela fluida-->
-<table class="tabela-fluida">
-  <tbody> 
-    <tr> 
-        <td><a class="opcoes" href="Umidade.html" style="text-decoration: none;"><p style="margin-top: 65px;">UMIDADE</p></a></td>
-        <td><a class="opcoes" href="Fibras.html" style="text-decoration: none;"><p style="margin-top: 65px;">FIBRAS</p></a></td>
-        <td><a class="opcoes" href="Extrato éterio.html" style="text-decoration: none;"><p style="margin-top: 45px;">EXTRATO<br><br>ÉTERIO</p></a></td>
-    </tr>
-    <tr>
-        <td><a class="opcoes" href="Cinzas.html" style="text-decoration: none;"><p style="margin-top: 65px;">CINZAS</p></a></td>
-        <td><a class="opcoes" href="#" style="text-decoration: none;"><p style="margin-top: 65px;">PROTEÍNAS</br>(Fiquei com preguiça)</p></a></td>
-        <td><a class="opcoes" href="#" style="text-decoration: none;"><p style="margin-top: 65px;">CARBOIDRATOS</br>(Talvez algum dia)</p></a></td>
-    </tr>
-  </tbody> 
-</table></center>
-
-<br /><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div><div><br /></div>
 </body>
 </html>
